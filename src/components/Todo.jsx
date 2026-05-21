@@ -24,7 +24,7 @@ export const Todo = () => {
   }
 
   const toggleTaskComplete = (taskId, isDone) => {
-    console.log(`Задача ${taskId} ${isDone ? 'выполнена' : 'не выполнена'}`)
+    setTasks(tasks.map((task) => task.id === taskId ? { ...task, isDone } : task))
   }
 
   const filterTasks = (query) => {
