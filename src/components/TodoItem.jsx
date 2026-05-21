@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-export const TodoItem = ({ id, title, isDone, className = '' }) => {
+export const TodoItem = ({ id, title, isDone, onDeleteTaskButtonClick, className = '' }) => {
   return (
     <li className={clsx('todo-item', className)}>
       <input
@@ -20,6 +20,7 @@ export const TodoItem = ({ id, title, isDone, className = '' }) => {
         className="todo-item__delete-button"
         aria-label="Delete"
         title="Delete"
+        onClick={() => onDeleteTaskButtonClick(id)}
       >
         <svg
           width="20"

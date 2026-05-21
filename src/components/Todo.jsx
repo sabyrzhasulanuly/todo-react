@@ -9,6 +9,14 @@ export const Todo = () => {
     { id: 'task-2', title: 'Погладить кота', isDone: true },
   ]
 
+  const deleteAllTasks = () => {
+    console.log('Удаляем все задачи!')
+  }
+
+  const deleteTask = (taskId) => {
+    console.log(`Удаляем задачу с id: ${taskId}`)
+  }
+
   return (
     <div className="todo">
       <h1 className="todo__title">To Do List</h1>
@@ -17,8 +25,12 @@ export const Todo = () => {
       <TodoInfo
         total={tasks.length}
         done={tasks.filter(({ isDone }) => isDone).length}
+        onDeleteAllButtonClick={deleteAllTasks}
       />
-      <TodoList tasks={tasks} />
+      <TodoList
+        tasks={tasks}
+        onDeleteTaskButtonClick={deleteTask}
+      />
     </div>
   )
 }

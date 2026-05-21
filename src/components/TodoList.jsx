@@ -1,6 +1,6 @@
 import { TodoItem } from './TodoItem'
 
-export const TodoList = ({ tasks = [] }) => {
+export const TodoList = ({ onDeleteTaskButtonClick, tasks = [] }) => {
   const hasTasks = true
 
   if (!hasTasks) {
@@ -13,6 +13,7 @@ export const TodoList = ({ tasks = [] }) => {
         <TodoItem
           className="todo__item"
           key={task.id}
+          onDeleteTaskButtonClick={onDeleteTaskButtonClick}
           {...task}
         />
       ))}
