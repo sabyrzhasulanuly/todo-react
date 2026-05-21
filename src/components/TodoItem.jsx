@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-export const TodoItem = ({ id, title, isDone, onDeleteTaskButtonClick, className = '' }) => {
+export const TodoItem = ({ id, title, isDone, onDeleteTaskButtonClick, onTaskCompleteChange, className = '' }) => {
   return (
     <li className={clsx('todo-item', className)}>
       <input
@@ -8,7 +8,9 @@ export const TodoItem = ({ id, title, isDone, onDeleteTaskButtonClick, className
         id={id}
         type="checkbox"
         checked={isDone}
-        readOnly
+        onChange={({ target }) => {
+          onTaskCompleteChange(id, target.checked)
+        }}
       />
       <label
         className="todo-item__label"
