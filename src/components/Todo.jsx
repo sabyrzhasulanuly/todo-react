@@ -25,10 +25,14 @@ export const Todo = () => {
     console.log(`Поиск: ${query}`)
   }
 
+  const addTask = () => {
+    console.log('Задача добавлена!')
+  }
+
   return (
     <div className="todo">
       <h1 className="todo__title">To Do List</h1>
-      <AddTaskForm />
+      <AddTaskForm addTask={addTask} />
       <SearchTaskForm onSearchInput={filterTasks} />
       <TodoInfo
         total={tasks.length}
