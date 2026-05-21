@@ -1,5 +1,12 @@
-export const Button = () => {
+import clsx from 'clsx'
+
+export const Button = ({ children, type = 'button', className = '' }) => {
   return (
-    <button className="button" type="submit">Add</button>
+    <button
+      className={clsx('button', className)}
+      type={type}
+    >
+      {children}
+    </button>
   )
 }
