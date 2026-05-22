@@ -1,8 +1,8 @@
 import clsx from 'clsx'
 
-export const TodoItem = ({ id, title, isDone, onDeleteTaskButtonClick, onTaskCompleteChange, className = '' }) => {
+export const TodoItem = ({ id, title, isDone, ref, onDeleteTaskButtonClick, onTaskCompleteChange, className = '' }) => {
   return (
-    <li className={clsx('todo-item', className)}>
+    <li className={clsx('todo-item', className)} ref={ref}>
       <input
         className="todo-item__checkbox"
         id={id}
