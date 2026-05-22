@@ -1,7 +1,7 @@
 import { Field } from './Field'
 import { Button } from './Button'
 
-export const AddTaskForm = ({ addTask, newTaskTitle, setNewTaskTitle }) => {
+export const AddTaskForm = ({ addTask, newTaskTitle, setNewTaskTitle, newTaskInputRef }) => {
   const onSubmit = (event) => {
     event.preventDefault()
     addTask()
@@ -15,6 +15,7 @@ export const AddTaskForm = ({ addTask, newTaskTitle, setNewTaskTitle }) => {
         id="new-task"
         value={newTaskTitle}
         onInput={(event) => setNewTaskTitle(event.target.value)}
+        ref={newTaskInputRef}
       />
       <Button type="submit">Add</Button>
     </form>

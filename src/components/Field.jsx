@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-export const Field = ({ id, label, value, onInput, type = 'text', className = '' }) => {
+export const Field = ({ id, label, value, onInput, ref, type = 'text', className = '' }) => {
   return (
     <div className={clsx('field', className)}>
       <label
@@ -17,6 +17,7 @@ export const Field = ({ id, label, value, onInput, type = 'text', className = ''
         type={type}
         value={value}
         onInput={onInput}
+        ref={ref}
       />
     </div>
   )
