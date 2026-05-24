@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import { TodoItem } from './TodoItem'
 
-export const TodoList = ({
+export const TodoList = memo(({
   firstIncompleteTaskRef,
   firstIncompleteTaskId,
   onDeleteTaskButtonClick,
@@ -33,4 +34,4 @@ export const TodoList = ({
       ))}
     </ul>
   )
-}
+})

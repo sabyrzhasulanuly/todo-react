@@ -1,6 +1,7 @@
+import { memo } from 'react'
 import clsx from 'clsx'
 
-export const TodoItem = ({ id, title, isDone, ref, onDeleteTaskButtonClick, onTaskCompleteChange, className = '' }) => {
+export const TodoItem = memo(({ id, title, isDone, ref, onDeleteTaskButtonClick, onTaskCompleteChange, className = '' }) => {
   return (
     <li className={clsx('todo-item', className)} ref={ref}>
       <input
@@ -42,4 +43,4 @@ export const TodoItem = ({ id, title, isDone, ref, onDeleteTaskButtonClick, onTa
       </button>
     </li>
   )
-}
+})
