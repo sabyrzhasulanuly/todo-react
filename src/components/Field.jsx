@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-export const Field = ({ id, label, value, onInput, ref, type = 'text', className = '' }) => {
+export const Field = ({ id, label, value, error, onInput, ref, type = 'text', className = '' }) => {
   return (
     <div className={clsx('field', className)}>
       <label
@@ -10,7 +10,7 @@ export const Field = ({ id, label, value, onInput, ref, type = 'text', className
         {label}
       </label>
       <input
-        className="field__input"
+        className={clsx('field__input', error && 'is-invalid')}
         id={id}
         placeholder=" "
         autoComplete="off"
@@ -19,6 +19,9 @@ export const Field = ({ id, label, value, onInput, ref, type = 'text', className
         onInput={onInput}
         ref={ref}
       />
+      {error && (
+        <span className="field__error" title={error}>{error}</span>
+      )}
     </div>
   )
 }
