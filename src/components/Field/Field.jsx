@@ -1,16 +1,17 @@
 import clsx from 'clsx'
+import styles from './Field.module.scss'
 
 export const Field = ({ id, label, value, error, onInput, ref, type = 'text', className = '' }) => {
   return (
-    <div className={clsx('field', className)}>
+    <div className={clsx(styles.field, className)}>
       <label
-        className="field__label"
+        className={styles.label}
         htmlFor={id}
       >
         {label}
       </label>
       <input
-        className={clsx('field__input', error && 'is-invalid')}
+        className={clsx(styles.input, error && styles.isInvalid)}
         id={id}
         placeholder=" "
         autoComplete="off"
@@ -20,7 +21,7 @@ export const Field = ({ id, label, value, error, onInput, ref, type = 'text', cl
         ref={ref}
       />
       {error && (
-        <span className="field__error" title={error}>{error}</span>
+        <span className={styles.error} title={error}>{error}</span>
       )}
     </div>
   )

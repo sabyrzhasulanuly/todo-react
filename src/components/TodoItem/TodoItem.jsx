@@ -1,7 +1,8 @@
 import { memo, useContext } from 'react'
 import clsx from 'clsx'
-import { RouterLink } from './RouterLink'
-import { TasksContext } from '../context/TasksContext'
+import { RouterLink } from '../RouterLink/RouterLink'
+import { TasksContext } from '../../context/TasksContext'
+import styles from './TodoItem.module.scss'
 
 export const TodoItem = memo(({ className, id, title, isDone }) => {
   const {
@@ -13,11 +14,11 @@ export const TodoItem = memo(({ className, id, title, isDone }) => {
 
   return (
     <li
-      className={clsx('todo-item', className)}
+      className={clsx(styles.todoItem, className)}
       ref={id === firstIncompleteTaskId ? firstIncompleteTaskRef : null}
     >
       <input
-        className="todo-item__checkbox"
+        className={styles.checkbox}
         id={id}
         type="checkbox"
         checked={isDone}
@@ -26,7 +27,7 @@ export const TodoItem = memo(({ className, id, title, isDone }) => {
         }}
       />
       <label
-        className="todo-item__label visually-hidden"
+        className={clsx(styles.label, 'visually-hidden')}
         htmlFor={id}
       >
         {title}
@@ -35,7 +36,7 @@ export const TodoItem = memo(({ className, id, title, isDone }) => {
         {title}
       </RouterLink>
       <button
-        className="todo-item__delete-button"
+        className={styles.deleteButton}
         aria-label="Delete"
         title="Delete"
         onClick={() => deleteTask(id)}

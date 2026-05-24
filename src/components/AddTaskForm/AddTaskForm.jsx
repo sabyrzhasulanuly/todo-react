@@ -1,10 +1,15 @@
 import { useContext, useState } from 'react'
-import { Field } from './Field'
-import { Button } from './Button/Button'
-import { TasksContext } from '../context/TasksContext'
+import { Field } from '../Field/Field'
+import { Button } from '../Button/Button'
+import { TasksContext } from '../../context/TasksContext'
 
-export const AddTaskForm = () => {
-  const { addTask, newTaskTitle, setNewTaskTitle, newTaskInputRef } = useContext(TasksContext)
+export const AddTaskForm = ({ styles }) => {
+  const {
+    addTask,
+    newTaskTitle,
+    setNewTaskTitle,
+    newTaskInputRef,
+  } = useContext(TasksContext)
 
   const [error, setError] = useState('')
 
@@ -29,9 +34,9 @@ export const AddTaskForm = () => {
   }
 
   return (
-    <form className="todo__form" onSubmit={onSubmit}>
+    <form className={styles.form} onSubmit={onSubmit}>
       <Field
-        className="todo__field"
+        className={styles.field}
         label="New task title"
         id="new-task"
         value={newTaskTitle}
@@ -39,7 +44,10 @@ export const AddTaskForm = () => {
         onInput={onInput}
         ref={newTaskInputRef}
       />
-      <Button type="submit" isDisabled={isNewTaskTitleEmpty}>
+      <Button
+        type="submit"
+        isDisabled={isNewTaskTitleEmpty}
+      >
         Add
       </Button>
     </form>
