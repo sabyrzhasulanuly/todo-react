@@ -15,13 +15,7 @@ export const Todo = () => {
       <AddTaskForm />
       <SearchTaskForm />
       <TodoInfo />
-      <Button
-        onClick={() =>
-          firstIncompleteTaskRef.current?.scrollIntoView({
-            behavior: 'smooth',
-          })
-        }
-      >
+      <Button onClick={() => firstIncompleteTaskRef.current?.scrollIntoView({ behavior: 'smooth' })}>
         Show first incomplete task
       </Button>
       <TodoList />
