@@ -1,5 +1,10 @@
+import { Todo } from '../components/Todo'
+import { TasksProvider } from '../context/TasksContext'
+
 export const TasksPage = () => {
   return (
-    <div>TasksPage</div>
+    <TasksProvider>
+      <Todo />
+    </TasksProvider>
   )
 }

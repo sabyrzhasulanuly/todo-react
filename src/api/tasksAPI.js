@@ -9,6 +9,10 @@ export const tasksAPI = {
     return fetch(URL).then((response) => response.json())
   },
 
+  getById: (id) => {
+    return fetch(`${URL}/${id}`).then((response) => response.json())
+  },
+
   add: (task) => {
     return fetch(URL, {
       method: 'POST',
@@ -23,7 +27,7 @@ export const tasksAPI = {
 
   deleteAll: (tasks) => {
     return Promise.all(
-      tasks.map(({ id }) => tasksAPI.delete(id))
+      tasks.map(({ id }) => tasksAPI.delete(id)),
     )
   },
 
