@@ -1,13 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
-import { useTasksLocalStorage } from './useTasksLocalStorage'
 
 export const useTasks = () => {
-  const { saveTasks, savedTasks } = useTasksLocalStorage()
-
-  const [tasks, setTasks] = useState(savedTasks ?? [
-    { id: 'task-1', title: 'Купить молоко', isDone: false },
-    { id: 'task-2', title: 'Погладить кота', isDone: true },
-  ])
+  const [tasks, setTasks] = useState([])
 
   const [newTaskTitle, setNewTaskTitle] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
@@ -18,37 +12,59 @@ export const useTasks = () => {
     const isConfirmed = confirm('Are you sure you want to delete all?')
 
     if (isConfirmed) {
-      setTasks([])
+      Promise.all(
+        tasks.map(({ id }) => {
+          return fetch(`http://localhost:3001/tasks/${id}`, {
+            method: 'DELETE',
+          })
+        }),
+      ).then(() => setTasks([]))
     }
-  }, [])
+  }, [tasks])
 
   const deleteTask = useCallback((taskId) => {
-    setTasks(tasks.filter(({ id }) => id !== taskId))
+    fetch(`http://localhost:3001/tasks/${taskId}`, {
+      method: 'DELETE',
+    }).then(() => setTasks(tasks.filter(({ id }) => id !== taskId)))
   }, [tasks])
 
   const toggleTaskComplete = useCallback((taskId, isDone) => {
-    setTasks(tasks.map((task) => (task.id === taskId ? { ...task, isDone } : task)))
+    fetch(`http://localhost:3001/tasks/${taskId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ isDone }),
+    }).then(() => setTasks(tasks.map((task) => task.id === taskId ? { ...task, isDone } : task)))
   }, [tasks])
 
   const addTask = useCallback((title) => {
     const newTask = {
-      id: crypto?.randomUUID() ?? Date.now().toString(),
       title,
       isDone: false,
     }
 
-    setTasks((prevTasks) => [...prevTasks, newTask])
-    setNewTaskTitle('')
-    setSearchQuery('')
-    newTaskInputRef.current.focus()
+    fetch('http://localhost:3001/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newTask),
+    }).then((response) => response.json())
+      .then((addedTask) => {
+        setTasks((prevTasks) => [...prevTasks, addedTask])
+        setNewTaskTitle('')
+        setSearchQuery('')
+        newTaskInputRef.current.focus()
+      })
   }, [])
 
   useEffect(() => {
-    saveTasks(tasks)
-  }, [tasks])
-
-  useEffect(() => {
     newTaskInputRef.current.focus()
+
+    fetch('http://localhost:3001/tasks')
+      .then((response) => response.json())
+      .then((data) => setTasks(data))
   }, [])
 
   const filteredTasks = useMemo(() => {

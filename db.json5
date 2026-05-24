@@ -1,0 +1,6 @@
+{
+  tasks: [
+    { id: 'task-1', title: 'Купить молоко', isDone: false },
+    { id: 'task-2', title: 'Погладить кота', isDone: true },
+  ]
+}
