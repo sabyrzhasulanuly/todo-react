@@ -1,91 +1,24 @@
-import {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useMemo,
-  createContext,
-} from 'react'
+import { createContext } from 'react'
+import { useTasks } from '../hooks/useTasks'
 
 export const TasksContext = createContext({})
 
 export const TasksProvider = ({ children }) => {
-  const [tasks, setTasks] = useState(() => {
-    const savedTasks = localStorage.getItem('tasks')
-
-    if (savedTasks) {
-      return JSON.parse(savedTasks)
-    }
-
-    return [
-      { id: 'task-1', title: 'Купить молоко', isDone: false },
-      { id: 'task-2', title: 'Погладить кота', isDone: true },
-    ]
-  })
-
-  const [newTaskTitle, setNewTaskTitle] = useState('')
-  const [searchQuery, setSearchQuery] = useState('')
-
-  const newTaskInputRef = useRef(null)
-  const firstIncompleteTaskRef = useRef(null)
-  const firstIncompleteTaskId = tasks.find(({ isDone }) => !isDone)?.id
-
-  const deleteAllTasks = useCallback(() => {
-    const isConfirmed = confirm('Are you sure you want to delete all?')
-
-    if (isConfirmed) {
-      setTasks([])
-    }
-  }, [])
-
-  const deleteTask = useCallback(
-    (taskId) => {
-      setTasks(tasks.filter(({ id }) => id !== taskId))
-    },
-    [tasks],
-  )
-
-  const toggleTaskComplete = useCallback(
-    (taskId, isDone) => {
-      setTasks(
-        tasks.map((task) => (task.id === taskId ? { ...task, isDone } : task)),
-      )
-    },
-    [tasks],
-  )
-
-  const addTask = useCallback(() => {
-    if (newTaskTitle.trim().length > 0) {
-      const newTask = {
-        id: crypto?.randomUUID() ?? Date.now().toString(),
-        title: newTaskTitle,
-        isDone: false,
-      }
-
-      setTasks((prevTasks) => [...prevTasks, newTask])
-      setNewTaskTitle('')
-      setSearchQuery('')
-      newTaskInputRef.current.focus()
-    }
-  }, [newTaskTitle])
-
-  useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks))
-  }, [tasks])
-
-  useEffect(() => {
-    newTaskInputRef.current.focus()
-  }, [])
-
-  const filteredTasks = useMemo(() => {
-    const clearSearchQuery = searchQuery.trim().toLowerCase()
-
-    return clearSearchQuery.length > 0
-      ? tasks.filter(({ title }) =>
-          title.toLowerCase().includes(clearSearchQuery),
-        )
-      : null
-  }, [searchQuery, tasks])
+  const {
+    tasks,
+    filteredTasks,
+    firstIncompleteTaskRef,
+    firstIncompleteTaskId,
+    deleteTask,
+    deleteAllTasks,
+    toggleTaskComplete,
+    newTaskTitle,
+    setNewTaskTitle,
+    searchQuery,
+    setSearchQuery,
+    newTaskInputRef,
+    addTask,
+  } = useTasks()
 
   return (
     <TasksContext.Provider
@@ -97,7 +30,6 @@ export const TasksProvider = ({ children }) => {
         deleteTask,
         deleteAllTasks,
         toggleTaskComplete,
-
         newTaskTitle,
         setNewTaskTitle,
         searchQuery,
