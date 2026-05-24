@@ -1,18 +1,13 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { useTasksLocalStorage } from './useTasksLocalStorage'
 
 export const useTasks = () => {
-  const [tasks, setTasks] = useState(() => {
-    const savedTasks = localStorage.getItem('tasks')
+  const { saveTasks, savedTasks } = useTasksLocalStorage()
 
-    if (savedTasks) {
-      return JSON.parse(savedTasks)
-    }
-
-    return [
-      { id: 'task-1', title: 'Купить молоко', isDone: false },
-      { id: 'task-2', title: 'Погладить кота', isDone: true },
-    ]
-  })
+  const [tasks, setTasks] = useState(savedTasks ?? [
+    { id: 'task-1', title: 'Купить молоко', isDone: false },
+    { id: 'task-2', title: 'Погладить кота', isDone: true },
+  ])
 
   const [newTaskTitle, setNewTaskTitle] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
@@ -51,7 +46,7 @@ export const useTasks = () => {
   }, [newTaskTitle])
 
   useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks))
+    saveTasks(tasks)
   }, [tasks])
 
   useEffect(() => {
