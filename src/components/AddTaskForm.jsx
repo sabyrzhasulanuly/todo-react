@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react'
 import { Field } from './Field'
-import { Button } from './Button'
+import { Button } from './Button/Button'
 import { TasksContext } from '../context/TasksContext'
 
 export const AddTaskForm = () => {
