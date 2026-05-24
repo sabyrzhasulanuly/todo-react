@@ -1,29 +1,37 @@
-import { memo } from 'react'
+import { memo, useContext } from 'react'
 import clsx from 'clsx'
+import { TasksContext } from '../context/TasksContext'
 
-export const TodoItem = memo(({ id, title, isDone, ref, onDeleteTaskButtonClick, onTaskCompleteChange, className = '' }) => {
+export const TodoItem = memo(({ className, id, title, isDone }) => {
+  const {
+    firstIncompleteTaskRef,
+    firstIncompleteTaskId,
+    toggleTaskComplete,
+    deleteTask,
+  } = useContext(TasksContext)
+
   return (
-    <li className={clsx('todo-item', className)} ref={ref}>
+    <li
+      className={clsx('todo-item', className)}
+      ref={id === firstIncompleteTaskId ? firstIncompleteTaskRef : null}
+    >
       <input
         className="todo-item__checkbox"
         id={id}
         type="checkbox"
         checked={isDone}
         onChange={({ target }) => {
-          onTaskCompleteChange(id, target.checked)
+          toggleTaskComplete(id, target.checked)
         }}
       />
-      <label
-        className="todo-item__label"
-        htmlFor={id}
-      >
+      <label className="todo-item__label" htmlFor={id}>
         {title}
       </label>
       <button
         className="todo-item__delete-button"
         aria-label="Delete"
         title="Delete"
-        onClick={() => onDeleteTaskButtonClick(id)}
+        onClick={() => deleteTask(id)}
       >
         <svg
           width="20"

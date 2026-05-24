@@ -1,11 +1,12 @@
+import { useContext } from 'react'
 import { Field } from './Field'
+import { TasksContext } from '../context/TasksContext'
 
-export const SearchTaskForm = ({ searchQuery, setSearchQuery }) => {
+export const SearchTaskForm = () => {
+  const { searchQuery, setSearchQuery } = useContext(TasksContext)
+
   return (
-    <form
-      className="todo__form"
-      onSubmit={(event) => event.preventDefault()}
-    >
+    <form className="todo__form" onSubmit={(event) => event.preventDefault()}>
       <Field
         className="todo__field"
         label="Search task"
